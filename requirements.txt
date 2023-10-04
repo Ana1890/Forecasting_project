@@ -1,4 +1,6 @@
 # To ensure app dependencies are ported from your virtual environment/host machine into your container, run 'pip freeze > requirements.txt' in the terminal to overwrite this file
-pandas==2.1.0
+pandas==2.0.3
 statsmodels==0.14.0
 pylab-sdk
+skforecast==0.10.1
+mlflow==2.7.1
