@@ -35,11 +35,6 @@ def train_model(y: pd.DataFrame):
                 lags      = 12 # This value will be replaced in the grid search
              )
 
-    lags_grid = [5, 12, 20]
-
-    param_grid = {'n_estimators': [50, 100, 500],
-                'max_depth': [3, 5, 10]}
-
     results_grid = grid_search_forecaster(
                         forecaster  = forecaster,
                         y           = data_train[target_variable],
@@ -54,12 +49,15 @@ def train_model(y: pd.DataFrame):
                         n_jobs      = 'auto',
                         verbose     = False
                 )
-    return forecaster, data_train, data_test, results_grid
+    return forecaster, data_train, data_test, results_grid  
 
 def main():
     """Main function."""
+    mlflow.set_tracking_uri("http://localhost:8080")
+    mlflow.set_experiment("Flights estimators")
+
     df_grouped = get_and_process_data()
-    with mlflow.start_run():
+    with mlflow.start_run(run_name="five_constants"):
         forecaster, data_train, data_test, results_grid = train_model(df_grouped)
         predictions = forecaster.predict(steps=steps, exog=data_test[exogenous_variable])
 
