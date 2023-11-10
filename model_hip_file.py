@@ -53,7 +53,7 @@ def train_model(y: pd.DataFrame):
 
 def main():
     """Main function."""
-    mlflow.set_tracking_uri("http://localhost:8080")
+    mlflow.set_tracking_uri("http://localhost:5000")
     mlflow.set_experiment("Flights estimators")
 
     df_grouped = get_and_process_data()
