@@ -1,0 +1,13 @@
+services:
+  mlflow:
+    image: atcommons/mlflow-server
+    build: .
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/mlflow
+    environment:
+      BACKEND_URI: mlflow/db
+      ARTIFACT_ROOT: mlflow/artifacts
+
+    command: mlflow server --backend-store-uri mlflow/db --default-artifact-root mlflow/artifacts --host 0.0.0.0 --port 5000
