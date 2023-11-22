@@ -12,7 +12,9 @@ from mlflow.models import infer_signature
 from constants import *
 
 def get_and_process_data():
-    """Get the specific data to be trained"""
+    """Get the specific data to be trained.
+    
+    we dont need to pass any variable."""
     df_traffic = pd.read_csv('Air_Traffic_Passenger_Statistics.csv')
     # print(list(df_traffic.columns))
     df_traffic['Activity Period Datetime'] = pd.to_datetime(df_traffic['Activity Period'], format=date_format)

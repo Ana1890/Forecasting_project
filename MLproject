@@ -1,8 +1,0 @@
-name: docker-example
-
-docker_env:
-  image: docker-flights-try
-
-entry_points:
-  main:
-    command: "model_hip_file.py"
