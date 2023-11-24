@@ -9,7 +9,26 @@ target_variable = 'Adjusted Passenger Count'
 date_variable = 'Activity Period Datetime'
 exogenous_variable = 'Price Category Code_Low Fare'
 
-param_grid = {'n_estimators': [25, 50, 100, 200, 500],
-                'max_depth': [2, 3, 5, 10, 15]}
+# Mlflow
+experiment_name_set = 'Child Runs Experiment'
 
-lags_grid = [5, 12, 16, 20]
+num_sets = 3
+
+param_grid1 = {'n_estimators': [25, 50, 100],
+                'max_depth': [4, 5, 6]}
+lags_grid1 = [5, 12, 16]
+
+
+param_grid2 = {'n_estimators': [400, 500],
+                'max_depth': [2,3]}
+lags_grid2 = [5, 20]
+
+
+param_grid3 = {'n_estimators': [30, 60, 90],
+               'max_depth': [2,4,8]}
+lags_grid3 = [5,9,12]
+
+# For child runs
+test_ident = 'stretch'
+num_runs = 1
+

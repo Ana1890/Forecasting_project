@@ -1,5 +1,7 @@
 *.csv
 *.exe
 *.jpg
+*.png
 *.dockerignore
 *.log
+*.txt
