@@ -1,4 +1,4 @@
-"""What if we need to run the this again?."""
+"""What if we need to run this again?."""
 import pandas as pd
 import numpy as np
 from skforecast.ForecasterAutoreg import ForecasterAutoreg
