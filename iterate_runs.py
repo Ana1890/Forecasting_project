@@ -1,4 +1,4 @@
-"""What if we need to run the run again?."""
+"""What if we need to run the this again?."""
 import pandas as pd
 import numpy as np
 from skforecast.ForecasterAutoreg import ForecasterAutoreg
@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import mlflow
 from mlflow.models import infer_signature
 
+from random import sample
 from functools import partial
 from itertools import starmap
 from more_itertools import consume
@@ -78,8 +79,10 @@ def train_model(y: pd.DataFrame, params_grid: list, lags_grid: list):
 
 def execute_and_log(run_name, df_grouped, params_grid, lags_grid, test_no, tag_ident):
     with mlflow.start_run(run_name=run_name, nested=True):
+
+        nro = int(run_name.split('_')[1])
         # Train model
-        forecaster, data_train, data_test, results_grid = train_model(df_grouped, params_grid[test_no], lags_grid[test_no])
+        forecaster, data_train, data_test, results_grid = train_model(df_grouped, params_grid[nro], lags_grid[nro])
         predictions = forecaster.predict(steps=steps, exog=data_test[exogenous_variable])
 
         # Log metrics
@@ -98,8 +101,8 @@ def execute_and_log(run_name, df_grouped, params_grid, lags_grid, test_no, tag_i
         predictions_t = forecaster.predict(steps=steps, exog=data_test[exogenous_variable])
 
         # Log artifacts
-        predictions_plot = plot_predictions(data_train, data_test, predictions_t, save_path=f"{tag_ident}_{test_no + 1}_predictions_plot.png")
-        mlflow.log_artifact(f'{tag_ident}_{test_no + 1}_predictions_plot.png')
+        predictions_plot = plot_predictions(data_train, data_test, predictions_t, save_path=f"images_plot/{tag_ident}_{nro}_predictions_plot.png")
+        mlflow.log_artifact(f'images_plot/{tag_ident}_{nro}_predictions_plot.png')
         signature = infer_signature(data_train, predictions_t)
 
         tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
@@ -108,7 +111,7 @@ def execute_and_log(run_name, df_grouped, params_grid, lags_grid, test_no, tag_i
         if tracking_url_type_store != "file":
             # Register the model
             mlflow.sklearn.log_model(
-                forecaster, "model", registered_model_name=f"forecaster_model_{tag_ident}_{test_no + 1}", signature=signature
+                forecaster, "model", registered_model_name=f"forecaster_model_{tag_ident}_{nro}_{test_no}", signature=signature
             )
         else:
             mlflow.sklearn.log_model(forecaster, "model", signature=signature)
@@ -116,13 +119,13 @@ def execute_and_log(run_name, df_grouped, params_grid, lags_grid, test_no, tag_i
 
 
 
-def generate_run_names(test_no, num_runs=5):
-    return (f"run_{i}_test_{test_no}" for i in range(num_runs))
+def generate_run_names(ident, params_grid):
+    return (f"run_{i}_{ident}_test" for i in range(len(params_grid)))
 
 
 
 
-def tunning_proces(test_no, df_grouped, params_grid, lags_grid, test_identifier, num_runs):
+def tunning_process(test_no, df_grouped, params_grid, lags_grid, test_identifier):
 
     ident = "default" if not test_identifier else test_identifier
 
@@ -138,7 +141,7 @@ def tunning_proces(test_no, df_grouped, params_grid, lags_grid, test_identifier,
 
         mlflow.set_tag("test_identifier", ident)
         # Generate run names and apply log_current_run function to each run name
-        runs = starmap(log_current_run, ((run_name,) for run_name in generate_run_names(test_no, num_runs)))
+        runs = starmap(log_current_run,  ((run_name,) for run_name in generate_run_names(ident, params_grid)))
         # Consume the iterator to execute the runs
         consume(runs)
         
@@ -156,8 +159,8 @@ def main():
     params_grid = [param_grid1, param_grid2, param_grid3]
     lags_grid = [lags_grid1, lags_grid2, lags_grid3]
 
-    consume(starmap(tunning_proces, ((x, df_grouped, params_grid, lags_grid, test_ident, num_runs) for x in range(len(params_grid)))))
+    consume(starmap(tunning_process, ((x, df_grouped, sample(params_grid, len(params_grid)), sample(lags_grid, len(lags_grid)), test_ident) for x in range(num_runs))))
     
-    
+
 if __name__  == "__main__":
     main()

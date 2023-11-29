@@ -10,7 +10,7 @@ date_variable = 'Activity Period Datetime'
 exogenous_variable = 'Price Category Code_Low Fare'
 
 # Mlflow
-experiment_name_set = 'Child Runs Experiment'
+experiment_name_set = 'Child Runs Fourth'
 
 num_sets = 3
 
@@ -29,6 +29,6 @@ param_grid3 = {'n_estimators': [30, 60, 90],
 lags_grid3 = [5,9,12]
 
 # For child runs
-test_ident = 'stretch'
-num_runs = 1
+test_ident = 'second'
+num_runs = 5
 
