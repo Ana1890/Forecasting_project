@@ -12,5 +12,7 @@ Ilustration of the mlflow GUI I achieved:
 
 And the child runs looks like:  
 
-<img width="252" alt="image" src="https://github.com/Ana1890/Forecasting_project/assets/67620315/4fc3fd6e-fca4-4ef4-bfa6-6b932fd99461">
+<img width="252" alt="image" src="https://github.com/Ana1890/Forecasting_project/assets/67620315/4fc3fd6e-fca4-4ef4-bfa6-6b932fd99461">  
+
+This can be improved with a bayesian search instead of a random search process
 
