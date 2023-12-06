@@ -2,7 +2,7 @@
 
 This is a modest project to predict the number of passengers an american flight will has.
 
-I used mlflow to track metrics and instead of use a conda enviroment, I choose to create a docker container to host the entire project. The training algorithm searches for the best combination of hiperparameters a list is providing. So in the iterate_runs.py script, I am looking to give a list of proposed lists of hiperparameters along the model will tune. Those 'parent' lists will have a random order of the 'child' lists to look for the best combination.
+I used mlflow to track metrics and instead of use a conda enviroment, I choose to create a docker container to host the entire project. The training algorithm searches for the best combination of hyperparameters a list is providing. So in the iterate_runs.py script, I am looking to give a list of proposed lists of hyperparameters along the model will tune. Those 'parent' lists will have a random order of the 'child' lists to look for the best combination.
 
 Ilustration of the results in mlflow GUI:  
 
