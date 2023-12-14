@@ -4,3 +4,6 @@ statsmodels==0.14.0
 pylab-sdk
 skforecast==0.10.1
 mlflow==2.7.1
+matplotlib
+more-itertools
+optuna

@@ -89,6 +89,8 @@ def tunning_proces(test_no, df_grouped, params_grid, lags_grid):
 
         print(f"Test error (mse): {error_mse}")
         print(f"N estimators choosed: {results_grid.reset_index().loc[0,'n_estimators']}")
+
+        
         mlflow.log_param("n_estimators", results_grid.reset_index().loc[0,'n_estimators'])
         mlflow.log_param("max_depth", results_grid.reset_index().loc[0,'max_depth'])
         mlflow.log_metric("test_rmse", error_mse)
@@ -97,8 +99,8 @@ def tunning_proces(test_no, df_grouped, params_grid, lags_grid):
         predictions_t = forecaster.predict(steps=steps, exog=data_test[exogenous_variable])
 
         # Log artifacts
-        predictions_plot = plot_predictions(data_train, data_test, predictions_t, save_path=f"{str(test_no + 1)}_predictions_plot.png")
-        mlflow.log_artifact(f'{str(test_no + 1)}_predictions_plot.png')
+        predictions_plot = plot_predictions(data_train, data_test, predictions_t, save_path=f"images/{str(test_no + 1)}_predictions_plot.png")
+        mlflow.log_artifact(f'images/{str(test_no + 1)}_predictions_plot.png')
         signature = infer_signature(data_train, predictions_t)
 
         tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
